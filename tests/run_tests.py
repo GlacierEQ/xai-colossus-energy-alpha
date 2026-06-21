@@ -4,33 +4,38 @@ import os
 import sys
 import time
 
-# Ensure parent directory is in path
-sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
-
-from grid_model import EnergyGridModel, verify_phase_synchronization, shed_load_profile
-
-def test_grid_calculations():
-    print("[TEST] Running Grid Impedance & sCO2 thermodynamic cycles...")
-    t0 = time.perf_counter()
+def run_all_tests():
+    print(f"\n=== Running Multi-file Test Suite for: {os.path.basename(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))} ===")
+    t_start = time.perf_counter()
     
-    assert verify_phase_synchronization(1.2, 1.21) == True
-    print("  - Verified TVA utility phase synchronization check")
+    # Clean previous shadow memory cache
+    shadow_mem = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", ".shadow_memory.json"))
+    if os.path.exists(shadow_mem):
+        os.remove(shadow_mem)
+        
+    # Clear previous overrides
+    shadow_rec = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", ".shadow_recovery"))
+    if os.path.exists(shadow_rec):
+        os.remove(shadow_rec)
+        
+    # Import and run each test module
+    from test_nominal import test_nominal
+    from test_emergency import test_emergency
+    from test_compaction import test_compaction
+    from test_integration import test_integration
     
-    model = EnergyGridModel()
-    apparent = model.calculate_apparent_power(1.21e9, 0.95)
-    assert apparent > 1.21e9
-    print(f"  - Calculated 1.21 GW apparent substation load: {apparent*1e-6:.2f} MVA")
-    
-    sco2_power = model.calculate_sco2_efficiency_boost(800.0, 50.0) # 800K exhaust, 50kg/s flow
-    assert sco2_power > 0
-    print(f"  - Calculated sCO2 waste-heat recovered power output: {sco2_power*1e-6:.2f} MWe")
-    
-    shed = shed_load_profile(59.4)
-    assert shed == 0.6
-    print(f"  - Verified grid drop emergency load-shed factor: {shed*100:.0f}%")
-    
-    duration_ms = (time.perf_counter() - t0) * 1000.0
+    try:
+        test_nominal()
+        test_emergency()
+        test_compaction()
+        test_integration()
+    except Exception as e:
+        print(f"  [FAIL] Test execution encountered error: {e}")
+        sys.exit(1)
+        
+    duration_ms = (time.perf_counter() - t_start) * 1000.0
     print(f"[TEST-METRICS] Status=SUCCESS Latency={duration_ms:.3f}ms")
+    sys.exit(0)
 
 if __name__ == '__main__':
-    test_grid_calculations()
+    run_all_tests()
