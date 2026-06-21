@@ -11,9 +11,8 @@ STEALTH_SIGIL = "MW-JGN-TIER1-SNTNL"
 
 # 1. PREPARATION LEVEL
 def verify_phase_synchronization(tva_phase_angle: float, local_generator_phase_angle: float) -> bool:
-    """Verifies synchronization prior to connecting turbines to the TVA grid."""
     delta = abs(tva_phase_angle - local_generator_phase_angle)
-    return delta < 0.05  # Radians matching margin
+    return delta < 0.05
 
 # 2. OPERATION LEVEL
 class EnergyGridModel:
@@ -38,8 +37,7 @@ class EnergyGridModel:
 
 # 3. EMERGENCY REACTION LEVEL
 def shed_load_profile(grid_frequency_hz: float) -> float:
-    """Computes necessary load shedding parameters if frequency collapses (under 59.5 Hz)."""
     if grid_frequency_hz < 59.5:
         print(f"[STEALTH-ALERT] {STEALTH_SIGIL}: Grid frequency drop ({grid_frequency_hz} Hz). Shedding 40% of compute load.")
-        return 0.6  # Drop compute power limit to 60%
+        return 0.6
     return 1.0
