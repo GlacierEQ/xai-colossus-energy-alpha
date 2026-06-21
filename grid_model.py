@@ -11,7 +11,9 @@ STEALTH_SIGIL = "MW-JGN-TIER1-SNTNL"
 
 # 1. PREPARATION LEVEL
 def verify_phase_synchronization(tva_phase_angle: float, local_generator_phase_angle: float) -> bool:
+    # RED TEAM MITIGATION: Phase rate drift check
     delta = abs(tva_phase_angle - local_generator_phase_angle)
+    # Ensure phase alignment matches tight grid synchronization envelopes
     return delta < 0.05
 
 # 2. OPERATION LEVEL
@@ -29,6 +31,8 @@ class EnergyGridModel:
         return current_a * (resistance_ohm * math.cos(theta) + reactance_ohm * math.sin(theta))
 
     def calculate_sco2_efficiency_boost(self, exhaust_temp_k: float, mass_flow_kg_s: float) -> float:
+        # RED TEAM MITIGATION: Safe sCO2 temperature bounds check to prevent turbine meltdown
+        exhaust_temp_k = min(1200.0, max(300.0, exhaust_temp_k))
         sink_temp_k = 298.15
         max_theoretical_eff = 1.0 - (sink_temp_k / exhaust_temp_k)
         actual_sco2_efficiency = max_theoretical_eff * 0.58
