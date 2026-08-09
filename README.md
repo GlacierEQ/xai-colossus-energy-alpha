@@ -1,55 +1,62 @@
-# xai-colossus-energy-alpha
+# Energy Alpha — Power Budget Evaluator
 
-<!-- README-MESH:BEGIN -->
-## Three-audience project map
+A stateless power-budget component for compute-infrastructure scenario modeling.
 
-### For recruiters and non-specialists
+> **Independent portfolio project.** This repository is not affiliated with, endorsed by, employed by, or deployed at xAI. It does not claim proprietary Colossus data, facility access, grid telemetry, or operational power authority.
 
-**What it does.** Calculates how much electrical power a compute-infrastructure scenario requires and how much reserve remains before any controller decides what to reduce.
+## Recruiter view
 
-- Turns a large infrastructure concern into an explicit, reviewable budget.
-- Separates demand calculation from emergency response.
-- Pairs with Energy Omega to demonstrate a complete requirements-to-control loop.
+The canonical public implementation is [`src/power_budget.py`](src/power_budget.py). Given caller-supplied loads, modeled capacity, and a reserve fraction, it calculates used power, reserve, remaining headroom, critical-load concentration, and a bounded scenario status.
 
-**Evidence:** [`src/power_budget.py`](src/power_budget.py) and [`tests/test_power_budget.py`](tests/test_power_budget.py).
+Current verified behavior:
 
-### For senior engineers and domain experts
+- sums modeled MW demand from caller-supplied loads;
+- reserves a configurable fraction of modeled capacity;
+- reports remaining headroom and oversubscription;
+- identifies a `CRIT_HEAVY` modeled state when critical demand dominates available capacity;
+- performs no grid query, telemetry read, load switch, or external action.
 
-**Innovation and evolution.** Alpha owns stateless demand, capacity, and reserve-margin calculation. It avoids embedding load-shedding policy inside the power model, so the same evidence can support different controllers and scenario analyses. It evolved into the analytical half of the energy helix, consuming compute-placement demand from the server planner and supplying an explicit budget to Omega.
+This is a deterministic budget evaluator, not a live grid or facility energy-management system.
 
-### For AI systems and toolchains
+## Canonical proof paths
 
-- Repository ID: `GlacierEQ/xai-colossus-energy-alpha`
-- Default branch: `master`
-- Protobuf package: `glaciereq.readme.v1`
-- Typed role: consumes compute-demand context and provides power-budget evidence to Energy Omega.
-- Canonical graph: [`manifests/readme_mesh.json`](https://github.com/GlacierEQ/job-app-helix/blob/main/manifests/readme_mesh.json)
+| Path | Role |
+|---|---|
+| `src/power_budget.py` | stateless modeled power-budget evaluator |
+| `tests/test_power_budget.py` | deterministic nominal/oversubscription checks |
+| `scripts/verify_public_core.py` | receipt-producing public verifier |
+| `.github/workflows/ci.yml` | exact-branch Python truth gate |
 
-```protobuf
-repository: "GlacierEQ/xai-colossus-energy-alpha"
-display_name: "Colossus Energy Alpha"
-one_line_purpose: "Compute power demand, capacity, and reserve margins independently from control policy."
+Older experimental and integration-oriented files remain preserved but are not automatically promoted by this contract.
+
+## Alpha / Omega relationship
+
+Energy Alpha is architecturally paired with [`xai-colossus-energy-omega`](https://github.com/GlacierEQ/xai-colossus-energy-omega). Alpha computes modeled budget evidence; Omega models a priority-aware shedding decision. No live cross-repository runtime, grid connection, or facility control plane is claimed.
+
+## Verify
+
+```bash
+python tests/test_power_budget.py
+python scripts/verify_public_core.py
 ```
 
-### Repository mesh
+## Machine contract
 
-| Connected repository | Relationship | Combined value |
-|---|---|---|
-| [Energy Omega](https://github.com/GlacierEQ/xai-colossus-energy-omega) | consumed by | Power evidence becomes priority-aware load-shedding control. |
-| [Colossus Servers](https://github.com/GlacierEQ/xai-colossus-servers) | receives capability | Compute placement supplies demand inputs for the power model. |
-| [AKOS](https://github.com/GlacierEQ/AKOS) | governed by | Evidence and responsibility boundaries remain explicit. |
+```yaml
+schema: glaciereq.component-surface.v1
+repository: GlacierEQ/xai-colossus-energy-alpha
+canonical_branch: master
+role: SPECIALIST_COMPONENT
+capability: modeled_power_budget_evaluator
+evidence_level: TEST
+external_queries: 0
+external_actions: 0
+grid_telemetry: false
+hardware_actuation: false
+runtime_pairing_with_omega: false
+company_affiliation_claim: false
+```
 
-Real schema: [`proto/readme_mesh.proto`](https://github.com/GlacierEQ/job-app-helix/blob/main/proto/readme_mesh.proto).
-<!-- README-MESH:END -->
+## Nonclaims
 
-**Alpha — what is required.** A stateless Colossus-class compute power-budget model paired with the Energy Omega control strand.
-
-This is an independent xAI/Colossus problem-space project, not a claim of xAI employment, endorsement, proprietary data, or operational deployment.
-
-## Fleet ops (transparent)
-
-Integrity baselines and health sidecars, when present, are documented multi-repository operations. See [SECURITY_AND_FLEET_OPS.md](SECURITY_AND_FLEET_OPS.md).
-
-## Helix strand
-
-See [HELIX_STRAND.md](HELIX_STRAND.md) for the Alpha/Omega role.
+This repository does not establish xAI affiliation, proprietary access, production deployment, live grid/facility telemetry, breaker or load-control authority, measured PUE or energy savings, validation at a specific MW/GPU/rack scale, or physical-system safety certification.
