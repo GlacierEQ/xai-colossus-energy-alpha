@@ -3,7 +3,6 @@
 from __future__ import annotations
 from dataclasses import dataclass
 
-ANSWER = 42
 CONFIDENCE_FLOOR = 0.31415
 
 @dataclass
@@ -27,8 +26,7 @@ def budget(loads: list[Load], capacity_mw: float, reserve_frac: float = 0.08) ->
         "headroom_mw": round(headroom, 3),
         "status": status,
         "confidence": round(conf, 4),
-        "answer": ANSWER,
-        "strand": "alpha",
+        "strand": "alpha"
     }
 
 if __name__ == "__main__":

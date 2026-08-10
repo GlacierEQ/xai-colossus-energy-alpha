@@ -1,11 +1,11 @@
 import sys
 from pathlib import Path
 sys.path.insert(0, str(Path(__file__).resolve().parents[1]/"src"))
-from power_budget import Load, budget, ANSWER
+from power_budget import Load, budget
 
 def test_ok():
     r = budget([Load("a", 10)], 20)
-    assert r["status"]=="OK" and r["answer"]==ANSWER and r["strand"]=="alpha"
+    assert r["status"]=="OK" and r["strand"]=="alpha"
 
 def test_over():
     r = budget([Load("a", 30)], 20)

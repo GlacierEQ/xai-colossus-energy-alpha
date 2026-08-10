@@ -1,0 +1,32 @@
+{
+  "schema": "glaciereq.operability-receipt.v1",
+  "repository": "GlacierEQ/xai-colossus-energy-alpha",
+  "at": "2026-08-10T04:12Z",
+  "source_sha": "77fbbe8376dafb57eb0b772061b7aaa8a61ff454f6b7a7f6eae1ba801e74e791",
+  "entry": "scripts/operate.py",
+  "primary_output": {
+    "module": "power_budget",
+    "ok": true,
+    "repository": "GlacierEQ/xai-colossus-energy-alpha",
+    "smoke": {
+      "args": [
+        "[Load(name='sample_name', mw=1.0, critic",
+        "1.0"
+      ],
+      "content_checked": true,
+      "invoked": true,
+      "kind": "fn",
+      "name": "budget",
+      "result": {
+        "confidence": 0.42,
+        "headroom_mw": -0.08,
+        "reserve_mw": 0.08,
+        "status": "OVERSUBSCRIBED",
+        "strand": "alpha",
+        "used_mw": 1.0
+      }
+    }
+  },
+  "dual_run_ok": true,
+  "result": "PASS"
+}
