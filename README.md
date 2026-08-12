@@ -1,116 +1,81 @@
-<<<<<<< HEAD
-# Energy Alpha — Power Budget Evaluator
-=======
-# xAI Colossus Energy Alpha — Primary Power Distribution & Management ⚡
+# Energy Alpha — Local Power Budget Planner
 
-> **Primary power distribution unit management for 150MW+ GPU datacenter with demand-response optimization.**
+**Installable, deterministic local power-capacity, reserve, and load-admission planning for modeled compute-infrastructure scenarios.**
 
-[![Python](https://img.shields.io/badge/Python-3.9+-blue)]()
-[![Domain](https://img.shields.io/badge/Domain-Power%20Systems-yellow)]()
->>>>>>> 621977d (docs(readme): upgrade to 3-section recruiter/engineer/mesh structure & update SHA-256 baseline)
+> **Independent portfolio project.** This repository is not affiliated with, endorsed by, employed by, or deployed at xAI. It has no grid, substation, generator, UPS, switchgear, PDU, rack-power, or facility-control authority.
 
-A stateless power-budget component for compute-infrastructure scenario modeling.
+Evidence state: `LOCAL_POWER_BUDGET_PLANNER_NOT_XAI_GRID_CONTROL`
 
-<<<<<<< HEAD
-> **Independent portfolio project.** This repository is not affiliated with, endorsed by, employed by, or deployed at xAI. It does not claim proprietary Colossus data, facility access, grid telemetry, or operational power authority.
+## What the product does
 
-## Recruiter view
+The canonical product is `src/power_budget.py`. It turns an explicit modeled capacity, reserve policy, and requested load set into an inspectable admission plan:
 
-The canonical public implementation is [`src/power_budget.py`](src/power_budget.py). Given caller-supplied loads, modeled capacity, and a reserve fraction, it calculates used power, reserve, remaining headroom, critical-load concentration, and a bounded scenario status.
+- validates finite positive capacity, bounded reserve fraction, finite non-negative load demand, unique load names, and integer priority;
+- protects the requested reserve before admitting modeled workload;
+- orders **critical loads first**, then stable numeric priority and name;
+- admits a load only when it fits inside the post-reserve loadable capacity;
+- explicitly identifies deferred loads and any critical load that cannot fit;
+- distinguishes `OK`, `CONSTRAINED`, and `CRITICAL_CAPACITY_DEFICIT` planner states;
+- reports requested/admitted/deferred MW, reserve MW, loadable capacity, headroom, utilization, and deterministic SHA-256 receipt;
+- performs zero external queries or actions and never issues a power command.
 
-Current verified behavior:
+The historical `budget()` function remains as a compatibility facade. It retains `OK` / `OVERSUBSCRIBED` status while exposing the richer `planner_status` and admitted/deferred plan.
 
-- sums modeled MW demand from caller-supplied loads;
-- reserves a configurable fraction of modeled capacity;
-- reports remaining headroom and oversubscription;
-- identifies a `CRIT_HEAVY` modeled state when critical demand dominates available capacity;
-- performs no grid query, telemetry read, load switch, or external action.
+## Install and run
 
-This is a deterministic budget evaluator, not a live grid or facility energy-management system.
+```bash
+python -m pip install .
+energy-alpha-plan
+energy-alpha-plan --capacity-mw 100 --reserve-fraction 0.15 \
+  --load inference:40:critical:10 \
+  --load training:30:standard:20 \
+  --load batch:25:standard:50
+python scripts/operate.py
+```
 
-## Canonical proof paths
+## Python API
 
-| Path | Role |
-|---|---|
-| `src/power_budget.py` | stateless modeled power-budget evaluator |
-| `tests/test_power_budget.py` | deterministic nominal/oversubscription checks |
-| `scripts/verify_public_core.py` | receipt-producing public verifier |
-| `.github/workflows/ci.yml` | exact-branch Python truth gate |
+```python
+from power_budget import Load, PowerEnvelope, plan_power
 
-Older experimental and integration-oriented files remain preserved but are not automatically promoted by this contract.
+plan = plan_power(
+    [Load("inference", 40, critical=True, priority=10), Load("batch", 30, priority=50)],
+    PowerEnvelope(capacity_mw=100, reserve_fraction=0.15),
+)
+print(plan["planner_status"])
+print(plan["admitted_loads"])
+```
 
-## Alpha / Omega relationship
+## Alpha / Omega boundary
 
-Energy Alpha is architecturally paired with [`xai-colossus-energy-omega`](https://github.com/GlacierEQ/xai-colossus-energy-omega). Alpha computes modeled budget evidence; Omega models a priority-aware shedding decision. No live cross-repository runtime, grid connection, or facility control plane is claimed.
+Energy Alpha answers: **which modeled loads fit while preserving an explicit power reserve?**
+
+Energy Omega may consume a resulting budget as an architectural peer, but this repository does not claim live cross-repository execution, telemetry, dispatch, switching, or control.
+
+## Historical material
+
+Older root-level power, grid, emergency, predictive, orchestration, and prior promotion artifacts remain for lineage. They are not imported by the installed product and do not establish facility-scale supply, live grid state, automatic transfer, generator/UPS dispatch, GPU power capping, energy-market optimization, or hardware control.
+
+The previous repository-known HMAC `PROMOTED` mechanism is retired. A local repository cannot independently promote itself by signing its own status with a secret committed in its own source tree.
 
 ## Verify
 
 ```bash
-python tests/test_power_budget.py
+python -m pytest -q
 python scripts/verify_public_core.py
 ```
 
-## Machine contract
+CI builds and installs the wheel, executes the installed CLI and direct operator on Python 3.11 and 3.13, rejects merge-conflict markers and unsupported public claims, and enforces an empty material gap matrix.
 
-```yaml
-schema: glaciereq.component-surface.v1
-repository: GlacierEQ/xai-colossus-energy-alpha
-canonical_branch: master
-role: SPECIALIST_COMPONENT
-capability: modeled_power_budget_evaluator
-evidence_level: TEST
-external_queries: 0
-external_actions: 0
-grid_telemetry: false
-hardware_actuation: false
-runtime_pairing_with_omega: false
-company_affiliation_claim: false
-```
+## Evidence boundary
 
-## Nonclaims
+This repository does **not** establish:
 
-This repository does not establish xAI affiliation, proprietary access, production deployment, live grid/facility telemetry, breaker or load-control authority, measured PUE or energy savings, validation at a specific MW/GPU/rack scale, or physical-system safety certification.
-=======
-## 🎯 For Recruiters & Hiring Managers
+- xAI affiliation, proprietary facility data, grid telemetry, or deployment;
+- any particular MW/GW datacenter scale, utility interconnect, generation capacity, or measured energy use;
+- generator, UPS, transformer, switchgear, PDU, rack, or GPU power actuation;
+- automatic failover, load shedding on real equipment, grid services, market bidding, or demand response;
+- production efficiency, availability, reliability, safety, or cost savings;
+- live Energy Omega, MCP, control-plane, or agent-mesh connectivity.
 
-This is the **primary power distribution controller** — managing electrical distribution from grid connection through switchgear to individual GPU rack PDUs. It demonstrates:
-
-- **Load balancing** across multiple utility feeds with automatic transfer switching
-- **Demand-response integration** with grid operator signals for peak shaving
-- **Power quality monitoring** with harmonic analysis and voltage regulation
-- **UPS coordination** managing battery backup state-of-charge and transfer timing
-
-**Why this matters**: Power systems engineering at datacenter scale requires the same **electrical engineering, control theory, and reliability design** used in grid management, industrial power, and renewable energy integration.
-
----
-
-## 🔬 For Engineers & Technical Reviewers
-
-### Core Components
-
-| Component | Language | Purpose |
-|---|---|---|
-| `src/energy_alpha.py` | Python | Power distribution, load balancing, UPS coordination |
-| `tests/` | Python | Power failure cascade simulation |
-
----
-
-## 🤖 ML/AI & Programmatic Mesh Integration
-
-- **MCP Tool**: `power_status()` — power distribution state queryable by energy optimization agents
-- **Mastermind Sidecar**: Publishes power alerts to APEX Highway mesh
-- **AI Extension**: Load forecasting model for proactive demand-response participation
-
-```python
-power = await mcp_client.call_tool("colossus-energy-alpha", "distribution_status")
-```
-
----
-
-## ⚡ Quick Start
-
-```bash
-python3 src/energy_alpha.py
-python3 tests/test_energy_alpha.py
-```
->>>>>>> 621977d (docs(readme): upgrade to 3-section recruiter/engineer/mesh structure & update SHA-256 baseline)
+The complete product is a local **power-budget and load-admission planner**, not a datacenter electrical control system.

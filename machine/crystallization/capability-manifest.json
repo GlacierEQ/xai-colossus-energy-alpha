@@ -1,0 +1,16 @@
+{
+  "schema": "glaciereq.crystallization-capabilities.v1",
+  "capabilities": [
+    {"id":"validated_power_envelope","state":"WORKING","implementation_paths":["src/power_budget.py"],"verification":["tests/test_power_budget.py","tests/test_adversarial.py"]},
+    {"id":"reserve_protected_capacity","state":"WORKING","implementation_paths":["src/power_budget.py"],"verification":["tests/test_power_budget.py"]},
+    {"id":"critical_first_stable_admission","state":"WORKING","implementation_paths":["src/power_budget.py"],"verification":["tests/test_power_budget.py"]},
+    {"id":"constrained_defer_planning","state":"WORKING","implementation_paths":["src/power_budget.py"],"verification":["tests/test_power_budget.py","tests/test_integration.py"]},
+    {"id":"critical_deficit_detection","state":"WORKING","implementation_paths":["src/power_budget.py"],"verification":["tests/test_power_budget.py","tests/test_emergency.py"]},
+    {"id":"deterministic_receipt","state":"WORKING","implementation_paths":["src/power_budget.py"],"verification":["tests/test_compaction.py"]},
+    {"id":"compatibility_budget_facade","state":"WORKING","implementation_paths":["src/power_budget.py"],"verification":["tests/test_power_budget.py"]},
+    {"id":"installable_product","state":"WORKING","implementation_paths":["pyproject.toml","src/energy_alpha_cli.py"],"verification":[".github/workflows/ci.yml"]},
+    {"id":"direct_operability","state":"WORKING","implementation_paths":["scripts/operate.py"],"verification":["tests/test_integration.py"]},
+    {"id":"public_truth_boundary","state":"WORKING","implementation_paths":["README.md","scripts/verify_public_core.py"],"verification":[".github/workflows/ci.yml"]},
+    {"id":"legacy_promotion_theater_retired","state":"WORKING","implementation_paths":["machine/promotion_authority.json","machine/excellence-state.json"],"verification":["tests/test_promotion_authority.py"]}
+  ]
+}

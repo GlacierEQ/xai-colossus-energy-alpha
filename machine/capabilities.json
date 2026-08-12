@@ -1,1 +1,20 @@
-{"capabilities": ["hyper-scaling"]}
+{
+  "schema": "glaciereq.repository-capabilities.v2",
+  "repository": "GlacierEQ/xai-colossus-energy-alpha",
+  "status": "FUNCTIONAL_CRYSTALLIZATION_CANDIDATE",
+  "evidence_state": "LOCAL_POWER_BUDGET_PLANNER_NOT_XAI_GRID_CONTROL",
+  "capabilities": [
+    "validated-power-envelope",
+    "reserve-protected-loadable-capacity",
+    "critical-first-stable-load-admission",
+    "noncritical-defer-planning",
+    "critical-capacity-deficit-detection",
+    "deterministic-power-plan-receipt",
+    "compatibility-budget-facade",
+    "installable-local-library-and-cli",
+    "direct-three-state-operability",
+    "fail-closed-public-truth-verification",
+    "legacy-promotion-theater-retired"
+  ],
+  "terminal_status_requires": "exact-head Python 3.11/3.13 behavior, package, installed CLI, direct runtime, truth verification, empty gap matrix, and source-bound completion receipt"
+}

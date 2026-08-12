@@ -1,8 +1,9 @@
-# SPDX-License-Identifier: Proprietary
-# Copyright (c) 2026 Casey del Carpio Barton
-import os, sys
-sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
+from power_budget import Load, PowerEnvelope, plan_power
 
-def test_compaction():
-    # Model range compliance check
-    print("  [PASS] Alpha strand: Nominal mathematical bounds check successful.")
+
+def test_plan_is_deterministic() -> None:
+    loads = [Load("critical", 40, True, 10), Load("batch", 30, False, 50)]
+    first = plan_power(loads, PowerEnvelope(100, .15))
+    second = plan_power(loads, PowerEnvelope(100, .15))
+    assert first == second
+    assert first["digest"] == second["digest"]
