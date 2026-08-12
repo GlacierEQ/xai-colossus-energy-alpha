@@ -74,7 +74,7 @@ This repository does **not** establish:
 - xAI affiliation, proprietary facility data, grid telemetry, or deployment;
 - any particular MW/GW datacenter scale, utility interconnect, generation capacity, or measured energy use;
 - generator, UPS, transformer, switchgear, PDU, rack, or GPU power actuation;
-- automatic failover, load shedding on real equipment, grid services, market bidding, or demand response;
+- automated source transfer, real-equipment load shedding, grid services, market bidding, or demand response;
 - production efficiency, availability, reliability, safety, or cost savings;
 - live Energy Omega, MCP, control-plane, or agent-mesh connectivity.
 
