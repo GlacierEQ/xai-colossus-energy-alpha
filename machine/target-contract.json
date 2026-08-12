@@ -1,22 +1,23 @@
 {
-  "schema": "glaciereq.repo-target-contract.v1",
+  "schema": "glaciereq.repo-target-contract.v2",
   "identity": {
     "repository_id": "GlacierEQ/xai-colossus-energy-alpha",
-    "family": "elite-estate"
+    "family": "local-power-budget-planner",
+    "purpose": "protect an explicit modeled reserve while deterministically admitting or deferring critical and noncritical power loads"
   },
   "current": {
-    "state": "PROMOTED",
+    "state": "FUNCTIONAL_CRYSTALLIZATION_CANDIDATE",
     "implemented": true,
-    "tested": true,
-    "deployed": false
+    "terminal_current_head_verified": false,
+    "deployed": false,
+    "naturally_deployable": false
   },
+  "evidence_state": "LOCAL_POWER_BUDGET_PLANNER_NOT_XAI_GRID_CONTROL",
+  "completion_rule": "CRYSTALLIZED only after exact-head tests prove power/reserve arithmetic, stable critical-first admission, adversarial refusal, installable CLI, direct operability, public truth, and zero local-purpose gaps, followed by a source-bound completion receipt whose carrying head re-passes the same matrix.",
   "nonclaims": [
-    "no employer affiliation",
-    "no production deployment without receipt"
-  ],
-  "donor_plan": {
-    "mode": "none",
-    "donors": []
-  },
-  "frozen_at": "2026-08-10T04:12Z"
+    "no xAI affiliation, proprietary facility data, grid telemetry, or deployment",
+    "no utility/grid/substation/generator/UPS/switchgear/PDU/rack/GPU actuation",
+    "no measured energy use, production efficiency, availability, reliability, or savings",
+    "no live Energy Omega pairing, demand response, energy market, MCP, or control-plane connectivity"
+  ]
 }

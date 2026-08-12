@@ -1,0 +1,52 @@
+{
+  "schema": "glaciereq.crystallization-completion-receipt.v1",
+  "repository": "GlacierEQ/xai-colossus-energy-alpha",
+  "status": "CRYSTALLIZED",
+  "verified_source_head": "96b53a8a800e2fa2e00cf2290233698e755f72f9",
+  "canonical_purpose": "Provide an installable deterministic local power-budget planner that protects a modeled reserve and produces stable critical-first load admission/defer plans.",
+  "evidence_state": "LOCAL_POWER_BUDGET_PLANNER_NOT_XAI_GRID_CONTROL",
+  "capabilities": {
+    "material_count": 11,
+    "implemented_count": 11,
+    "verified_count": 11,
+    "remaining_gap_count": 0
+  },
+  "proof": {
+    "workflow_run_id": 31646788306,
+    "conclusion": "success",
+    "python_3_11": {"job_id": 94282136444, "conclusion": "success"},
+    "python_3_13": {"job_id": 94282136331, "conclusion": "success"},
+    "proved": [
+      "18 behavioral and adversarial tests",
+      "reserve-protected loadable-capacity arithmetic",
+      "stable critical-first priority ordering",
+      "noncritical defer planning",
+      "critical-capacity-deficit detection",
+      "deterministic power-plan receipts",
+      "historical budget compatibility facade",
+      "installable wheel build",
+      "installed energy-alpha-plan CLI execution",
+      "direct OK / CONSTRAINED / CRITICAL_CAPACITY_DEFICIT operability",
+      "conflict-free strengthened public truth surface",
+      "legacy repository-known HMAC promotion authority retired",
+      "all crystallization capabilities WORKING",
+      "empty material gap matrix"
+    ]
+  },
+  "build": "PASS",
+  "tests": "PASS",
+  "runtime": "PASS",
+  "truth_verification": "PASS",
+  "legacy_promotion_authority": "RETIRED",
+  "deployment": {
+    "status": "NOT_APPLICABLE",
+    "reason": "The complete product is a local/reference power-budget and load-admission planner. Grid or facility attachment requires separate telemetry, electrical authority, hardware controls, and safety evidence."
+  },
+  "truth_boundary": [
+    "No xAI affiliation, proprietary facility data, grid telemetry, or deployment is established.",
+    "No utility, substation, generator, UPS, switchgear, PDU, rack, or GPU power actuation is established.",
+    "No measured energy use, production efficiency, availability, reliability, or savings claim is established.",
+    "No live Energy Omega pairing, demand response, energy-market, MCP, or control-plane connectivity is established."
+  ],
+  "receipt_head_rule": "This receipt is terminal only if the commit carrying it re-passes the exact Python 3.11/3.13 product and truth matrix and remains fresh against canonical master immediately before merge."
+}

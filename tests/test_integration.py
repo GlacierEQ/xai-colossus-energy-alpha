@@ -1,8 +1,14 @@
-# SPDX-License-Identifier: Proprietary
-# Copyright (c) 2026 Casey del Carpio Barton
-import os, sys
-sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
+from __future__ import annotations
 
-def test_integration():
-    # Check APEX registry hooks
-    print("  [PASS] APEX Registry connection verification successful.")
+import json
+import subprocess
+import sys
+
+
+def test_direct_operator_exercises_three_plan_states() -> None:
+    result = subprocess.run([sys.executable, "scripts/operate.py"], check=True, capture_output=True, text=True)
+    receipt = json.loads(result.stdout)
+    assert receipt["result"] == "PASS"
+    assert receipt["nominal"]["planner_status"] == "OK"
+    assert receipt["constrained"]["planner_status"] == "CONSTRAINED"
+    assert receipt["critical_deficit"]["planner_status"] == "CRITICAL_CAPACITY_DEFICIT"

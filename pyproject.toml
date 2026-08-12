@@ -1,0 +1,22 @@
+[build-system]
+requires = ["setuptools>=75", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "glaciereq-energy-alpha"
+version = "1.0.0"
+description = "Independent local power-budget and load-admission planner"
+readme = "README.md"
+requires-python = ">=3.11"
+dependencies = []
+
+[project.scripts]
+energy-alpha-plan = "energy_alpha_cli:main"
+
+[tool.setuptools]
+package-dir = {"" = "src"}
+py-modules = ["power_budget", "energy_alpha_cli"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+pythonpath = ["src", "."]

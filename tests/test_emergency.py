@@ -1,10 +1,8 @@
-# SPDX-License-Identifier: Proprietary
-# Copyright (c) 2026 Casey del Carpio Barton
-import os, sys
-sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
+from power_budget import Load, PowerEnvelope, plan_power
 
-from grid_model import shed_load_profile
-def test_emergency():
-    shed = shed_load_profile(59.3)
-    assert shed == 0.6
-    print("  [PASS] Emergency grid drop load shedding boundaries validated.")
+
+def test_capacity_deficit_is_plan_state_not_emergency_action() -> None:
+    result = plan_power([Load("critical", 95, True)], PowerEnvelope(100, .15))
+    assert result["planner_status"] == "CRITICAL_CAPACITY_DEFICIT"
+    assert result["hardware_actuation"] is False
+    assert result["external_actions"] == 0

@@ -1,0 +1,10 @@
+{
+  "schema": "glaciereq.crystallization-purpose.v1",
+  "repository": "GlacierEQ/xai-colossus-energy-alpha",
+  "canonical_purpose": "Provide an installable deterministic local power-budget planner that protects a modeled reserve and produces stable critical-first load admission/defer plans.",
+  "consumers": ["developers", "reviewers", "local infrastructure simulations", "architectural Energy Omega peer"],
+  "natural_runtime": "installable local Python library and CLI",
+  "naturally_deployable": false,
+  "deployment_reason": "Grid/facility attachment requires external telemetry, electrical authority, hardware controls, and safety evidence outside this local planning purpose.",
+  "evidence_state": "LOCAL_POWER_BUDGET_PLANNER_NOT_XAI_GRID_CONTROL"
+}
